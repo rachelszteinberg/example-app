@@ -1,0 +1,6 @@
+
+.router-container {
+  height: calc(100vh - 65px);
+  margin-left: 10px;
+  margin-right: 10px;
+}

@@ -1,0 +1,48 @@
+<div class="container d-flex flex-column">
+    <div class="row flex-grow-1" id="patient-overview">
+        <h4>Current Patient Status</h4>
+        <div class="container-fluid">
+            <div class="d-flex flex-row flex-nowrap">
+                <div *ngFor="let patient of currentPatientList" class="card card-body m-2">
+                    <h5 class="card-title">{{patient.lastName}}, {{patient.firstName}}</h5>
+                    <div class="card-text">
+                        <p>Born on {{Utils.getDisplayDate(patient.dob)}} ({{Utils.getAge(patient.dob)}} years old)</p>
+                        <p *ngIf="patient.studyInfo.algo; else noAlgoStudy">{{patient.studyInfo.sourceAE}} -
+                            {{patient.studyInfo.scanType}}- {{patient.studyInfo.algo}}</p>
+                        <ng-template #noAlgoStudy>
+                            <p>{{patient.studyInfo.sourceAE}} - {{patient.studyInfo.scanType}}</p>
+                        </ng-template>
+                        <p>{{Utils.getTimeRemaining(patient.studyInfo)}} minutes remaining</p>
+                        <p *ngIf="Utils.showWarning(patient, systemList)" class="font-italic text-danger">{{patient.studyInfo.sourceAE}}
+                            has Warnings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row flex-grow-1" id="system-overview">
+        <h4>Imaging System Status</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">System ID</th>
+                    <th scope="col">AE Title</th>
+                    <th scope="col">Current Status</th>
+                    <th scope="col">Destination Rules</th>
+                    <th scope="col">Warnings</th>
+                </tr>
+            </thead>
+            <tbody infiniteScroll [infiniteScrollDistance]="0.1" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+                [scrollWindow]="false">
+                <tr *ngFor="let system of systemList; index as i">
+                    <td>{{ system.id }}</td>
+                    <td>{{ system.aeTitle }}</td>
+                    <td>{{ system.status }}</td>
+                    <td>{{ Utils.getPushRulesString(system.pushRules)}}</td>
+                    <td>{{ system.warnings }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

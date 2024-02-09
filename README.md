@@ -1,27 +1,15 @@
 # ExampleApp
 
+This code was developed over a few days, to demonstrate some basic Angular UI coding. Both the code and unit tests are in a minimal state, meant to depict a basic working UI with routing. Ideally, the data would be coming from a service (typically handled as an Observable), but for this example it was hardcoded as mock data objects that are referenced directly in the components. 
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.2.
 
-## Development server
+## Running Instructions
+If this is the first time you are running the code, run `npm install` to download all dependencies. 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github.io). Unit test results can be found in the coverage folder. 
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

@@ -1,0 +1,48 @@
+<div class="container">
+    <h4>Patients</h4>
+
+    <div *ngFor="let patient of patientList; let i = index;" class="card card-body m-2">
+        <h5 class="card-header" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="true"
+            [attr.aria-controls]="'collapse' + i">
+            {{patient.lastName}}, {{patient.firstName}}
+        </h5>
+        <div class="card-text" [attr.id]="'collapse'+i" class="collapse show">
+            <div class="row">
+                <div class="col-sm-4">
+                    D.O.B: {{Utils.getDisplayDate(patient.dob)}} ({{Utils.getAge(patient.dob)}} y.o.)</div>
+                <div class="col-sm-4">
+                    <p *ngIf="patient.studyInfo.algo; else noAlgoStudy">{{patient.studyInfo.sourceAE}} -
+                        {{patient.studyInfo.scanType}}- {{patient.studyInfo.algo}}</p>
+                    <ng-template #noAlgoStudy>
+                        <p>{{patient.studyInfo.sourceAE}} - {{patient.studyInfo.scanType}}</p>
+                    </ng-template>
+                </div>
+                <div class="col-sm-4">
+                    <p *ngIf="!patient.studyInfo.studyTimeEnd; else studyComplete">
+                        {{Utils.getTimeRemaining(patient.studyInfo)}} minutes remaining</p>
+                    <ng-template #studyComplete>
+                        <p>Study UID: {{patient.studyInfo.studyUID}}</p>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div *ngIf="patient.pronouns; else defaultPronouns">
+                        <p>{{patient.gender}} ({{patient.pronouns}})</p>
+                    </div>
+                    <ng-template #defaultPronouns>
+                        <p>{{patient.gender}}</p>
+                    </ng-template>    
+                </div>
+                <div class="col-sm-4">
+                    <p>Admitted : {{patient.admittedDT | date : 'medium'}}</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Physician: {{patient.referredPhysician}}</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

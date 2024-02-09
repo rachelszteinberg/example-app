@@ -1,0 +1,71 @@
+<div class="container">
+    <h4>Imaging Systems</h4>
+
+    <div *ngFor="let system of systemList; let i = index;" class="card card-body m-2">
+        <h5 class="card-header" style="margin-bottom: 10px" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="true"
+            [attr.aria-controls]="'collapse' + i">
+            {{system.aeTitle}} ({{system.id}})
+        </h5>
+        <div class="card-text" [attr.id]="'collapse'+i" class="collapse show">
+            <!-- Left system data -->
+            <div style="width: 20%; float:left">
+                <p>Status: {{ system.status }}</p>
+                <p *ngIf="system.warnings && system.warnings.length > 0" class="text-danger">
+                    Warning : {{ system.warnings }}
+                </p>
+                <p>Manufacturer: {{ system.manufacturer }}</p>
+                <p>Hardware: {{ system.hardwareVersion }}</p>
+                <p>Software: {{ system.softwareVersion }}</p>
+            </div>
+
+            <!-- Right push rules -->
+            <div style="width: 80%; float:right">
+                <h5> Destination Rules </h5>
+                <form>
+                    <div class="form-group row" *ngFor="let key of Utils.getRuleKeys(system.pushRules)">
+                        <div *ngIf="key === 'sourceDevices'; else singleValue">
+                            <label class="col" for="exampleFormControlSelect2">Source Devices</label>
+                            <select multiple class="col form-control" id="exampleFormControlSelect2">
+                                <option *ngFor="let sys of systemList;"
+                                    [selected]="isSystemSelected(sys, system.pushRules)">{{sys.aeTitle}}</option>
+                            </select>
+                        </div>
+                        <ng-template #singleValue>
+                            <div *ngIf="key === 'returnToSource'; else freeformText" class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck"
+                                    [checked]="toggleOn(system)">
+                                <label class="form-check-label" for="flexSwitchCheck">Return to Source</label>
+                            </div>
+                        </ng-template>
+                        <ng-template #freeformText>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" value="{{key}}">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" value="{{system.pushRules[key]}}">
+                            </div>
+                        </ng-template>
+                    </div>
+
+                    <!-- Beginnings of form builder for new push rules (NOT FULLY FUNCTIONAL)-->
+                    <form [formGroup]="rulesForm">
+                        <div formArrayName="rules">
+                            <div class="row" *ngFor="let item of rules.controls; let pointIndex=index"
+                                [formGroupName]="pointIndex" style="margin-bottom: 10px">
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" formControlName="key">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" formControlName="value">
+                                </div>
+                                <button type="button" class="col-sm-2" (click)="deleteRule(pointIndex)">Delete Rule</button>
+                            </div>
+                            <button  type="button" (click)="addRule()">Add Rule</button>
+                        </div>
+                    </form>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

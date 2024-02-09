@@ -1,0 +1,12 @@
+.card-body {
+  width: calc(100vw - 40px);
+}
+
+.container {
+  height: calc(100vh - 60px);
+  max-width: calc(100vw - 20px);
+}
+
+h4 {
+  padding-top: 10px;
+}
